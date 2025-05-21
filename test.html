@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Addition Game Tests</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="framework.css">
+    <style>
+        body { 
+            padding: 20px; 
+            font-family: 'Nunito', sans-serif; /* Apply font to test page as well */
+        }
+        .test-results { margin-top: 20px; }
+        .test-case {
+            padding: 10px;
+            margin-bottom: 8px;
+            border-radius: 4px;
+        }
+        .test-case.passed {
+            background-color: #e6ffed;
+            border-left: 5px solid #48c774;
+        }
+        .test-case.failed {
+            background-color: #fff5f5;
+            border-left: 5px solid #f14668;
+        }
+        .test-case p { margin-bottom: 5px; }
+        strong { font-weight: bold; }
+    </style>
+</head>
+<body>
+    <section class="section">
+        <div class="container">
+            <h1 class="title">Addition Learning Game - Test Suite</h1>
+            <p class="subtitle">Results of the automated tests.</p>
+            <div id="test-results-summary" class="message">
+                <div class="message-header">
+                    <p>Test Summary</p>
+                </div>
+                <div class="message-body">
+                    <p>Total Tests: <span id="total-tests">0</span></p>
+                    <p>Passed: <span id="passed-tests">0</span></p>
+                    <p>Failed: <span id="failed-tests">0</span></p>
+                </div>
+            </div>
+            <div id="test-results-container" class="test-results">
+                <!-- Test results will be appended here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Game script, so its functions are available for testing -->
+    <script src="script.js"></script>
+    <!-- Test runner and test cases -->
+    <script src="tests.js"></script>
+</body>
+</html> 

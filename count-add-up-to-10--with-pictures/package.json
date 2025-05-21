@@ -1,0 +1,19 @@
+{
+  "name": "count-add-up-to-10-with-pictures",
+  "version": "1.0.0",
+  "description": "An educational addition game for kids",
+  "main": "script.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0"
+  },
+  "jest": {
+    "testEnvironment": "jsdom",
+    "moduleDirectories": ["node_modules", "src"],
+    "testMatch": ["**/test.js"],
+    "transform": {}
+  }
+} 

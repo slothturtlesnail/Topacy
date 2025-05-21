@@ -1,0 +1,14 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+- This is an educational game.
+- Use Bulma css framework for this project.
+- I have created a base template, use it.
+- The code should include tests for all features.
+- Add sound effects to enhance the user experience, especially for interactive elements and game feedback.
+- The color theme should change each time the exercise is restarted to keep the experience visually engaging.
+- Include smooth and visually appealing transition effects between the exercise questions to enhance user experience.
+- the exercise must have a progress bar and a timer showing the time used. At the end of the exercise, display the results, total time taken, percentage score, and include a button to retake the exercise.
+- the exercise consists of 10 questions. If an answer is incorrect, it must clearly indicate that it is wrong and display a button to proceed to the next question.

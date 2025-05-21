@@ -1,0 +1,560 @@
+body {
+    font-family: 'Playpen Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    margin: 0;
+    background-color: #f4f4f4; /* Default background */
+}
+
+.game-container {
+    font-family: 'Playpen Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 600px; /* Max width for the game */
+    text-align: center;
+}
+
+#question-display {
+    font-size: 2.5em; /* Larger font for emojis and question */
+    min-height: 100px; /* Ensure space for question */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    border: 1px solid #dbdbdb; /* Default Bulma box border */
+    margin-bottom: 25px;
+    transition: background-color 0.3s ease, border-color 0.3s ease; /* For theme changes */
+    font-weight: 500; /* Medium weight for better readability */
+}
+
+/* Add new styles for question text and emojis */
+#question-display .question-text {
+    font-size: 0.5em; /* Make the question text smaller */
+    color: #666;
+    margin-bottom: 20px;
+    text-align: center;
+    width: 100%;
+}
+
+#question-display .emoji-display {
+    font-size: 1.2em; /* Make emojis bigger */
+    line-height: 1.5;
+    margin: 5px 0;
+    text-align: center;
+}
+
+#question-display .operator {
+    font-size: 1.5em;
+    margin: 5px 0;
+    color: #666;
+    text-align: center;
+}
+
+#answer-input {
+    font-size: 1.5em;
+    width: 120px;
+    height: 60px;
+    font-family: 'Playpen Sans', sans-serif;
+    text-align: center;
+    border: 3px solid #dbdbdb;
+    border-radius: 8px;
+    padding: 0 15px;
+    transition: all 0.3s ease;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+#answer-input:focus {
+    outline: none;
+    border-color: currentColor;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    transform: translateY(-2px);
+}
+
+/* Remove number input arrows */
+#answer-input::-webkit-outer-spin-button,
+#answer-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+#answer-input[type=number] {
+    -moz-appearance: textfield; /* Firefox */
+}
+
+/* Theme-specific input styles */
+.game-container.is-emerald #answer-input:focus {
+    border-color: #10b981;
+}
+
+.game-container.is-sky #answer-input:focus {
+    border-color: #0ea5e9;
+}
+
+.game-container.is-amber #answer-input:focus {
+    border-color: #f59e0b;
+}
+
+.game-container.is-rose #answer-input:focus {
+    border-color: #f43f5e;
+}
+
+.game-container.is-violet #answer-input:focus {
+    border-color: #8b5cf6;
+}
+
+.game-container.is-teal #answer-input:focus {
+    border-color: #14b8a6;
+}
+
+.game-container.is-orange #answer-input:focus {
+    border-color: #f97316;
+}
+
+.game-container.is-fuchsia #answer-input:focus {
+    border-color: #d946ef;
+}
+
+.game-container.is-indigo #answer-input:focus {
+    border-color: #6366f1;
+}
+
+.game-container.is-cyan #answer-input:focus {
+    border-color: #06b6d4;
+}
+
+/* Initial state for transitions - hidden */
+.hidden-initially {
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+/* Final state for transitions - visible */
+.visible {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+
+/* Question transition classes (example) */
+.question-enter {
+    opacity: 0;
+    transform: scale(0.9);
+}
+.question-enter-active {
+    opacity: 1;
+    transform: scale(1);
+    transition: opacity 300ms, transform 300ms;
+}
+.question-exit {
+    opacity: 1;
+    transform: scale(1);
+}
+.question-exit-active {
+    opacity: 0;
+    transform: scale(0.9);
+    transition: opacity 300ms, transform 300ms;
+}
+
+/* Bulma progress bar theming - primary is default */
+/* We can add more specific theme rules here later */
+.progress.is-primary::-webkit-progress-value {
+    background-color: #00d1b2; /* Bulma primary */
+}
+.progress.is-primary::-moz-progress-bar {
+    background-color: #00d1b2;
+}
+
+/* Helper class for hiding elements via JS, Bulma's .is-hidden is display:none */
+.visually-hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Add some margin to the main section to prevent sticking to top if body styles are removed */
+.section {
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+
+/* Theme color rules */
+.progress.is-primary::-webkit-progress-value { background-color: #00d1b2; }
+.progress.is-primary::-moz-progress-bar { background-color: #00d1b2; }
+.button.is-primary { background-color: #00d1b2; }
+
+.progress.is-link::-webkit-progress-value { background-color: #3273dc; }
+.progress.is-link::-moz-progress-bar { background-color: #3273dc; }
+.button.is-link { background-color: #3273dc; }
+
+.progress.is-info::-webkit-progress-value { background-color: #3298dc; }
+.progress.is-info::-moz-progress-bar { background-color: #3298dc; }
+.button.is-info { background-color: #3298dc; }
+
+.progress.is-success::-webkit-progress-value { background-color: #48c774; }
+.progress.is-success::-moz-progress-bar { background-color: #48c774; }
+.button.is-success { background-color: #48c774; }
+
+.progress.is-warning::-webkit-progress-value { background-color: #ffdd57; }
+.progress.is-warning::-moz-progress-bar { background-color: #ffdd57; }
+.button.is-warning { background-color: #ffdd57; }
+
+.progress.is-danger::-webkit-progress-value { background-color: #f14668; }
+.progress.is-danger::-moz-progress-bar { background-color: #f14668; }
+.button.is-danger { background-color: #f14668; }
+
+/* Add hover effects for buttons */
+.button.is-primary:hover { background-color: #00c4a7; }
+.button.is-link:hover { background-color: #2366d1; }
+.button.is-info:hover { background-color: #1f81c4; }
+.button.is-success:hover { background-color: #3ec46d; }
+.button.is-warning:hover { background-color: #ffd83d; }
+.button.is-danger:hover { background-color: #f03a5f; }
+
+/* Theme color rules - more specific selectors to override Bulma */
+.game-container .progress.is-emerald::-webkit-progress-value { 
+    background-color: #10b981 !important; 
+}
+.game-container .progress.is-emerald::-moz-progress-bar { 
+    background-color: #10b981 !important; 
+}
+.game-container .button.is-emerald { 
+    background-color: #10b981 !important; 
+    border-color: #10b981 !important; 
+    color: white !important;
+}
+.game-container .button.is-emerald:hover { 
+    background-color: #059669 !important; 
+    border-color: #059669 !important; 
+    color: white !important;
+}
+.game-container.is-emerald {
+    background-color: #ecfdf5 !important;
+    border: 2px solid #10b981 !important;
+}
+.game-container.is-emerald .title,
+.game-container.is-emerald label,
+.game-container.is-emerald p {
+    color: #065f46 !important;
+}
+
+.game-container .progress.is-sky::-webkit-progress-value { 
+    background-color: #0ea5e9 !important; 
+}
+.game-container .progress.is-sky::-moz-progress-bar { 
+    background-color: #0ea5e9 !important; 
+}
+.game-container .button.is-sky { 
+    background-color: #0ea5e9 !important; 
+    border-color: #0ea5e9 !important; 
+    color: white !important;
+}
+.game-container .button.is-sky:hover { 
+    background-color: #0284c7 !important; 
+    border-color: #0284c7 !important; 
+    color: white !important;
+}
+.game-container.is-sky {
+    background-color: #f0f9ff !important;
+    border: 2px solid #0ea5e9 !important;
+}
+.game-container.is-sky .title,
+.game-container.is-sky label,
+.game-container.is-sky p {
+    color: #075985 !important;
+}
+
+.game-container .progress.is-amber::-webkit-progress-value { 
+    background-color: #f59e0b !important; 
+}
+.game-container .progress.is-amber::-moz-progress-bar { 
+    background-color: #f59e0b !important; 
+}
+.game-container .button.is-amber { 
+    background-color: #f59e0b !important; 
+    border-color: #f59e0b !important; 
+    color: white !important;
+}
+.game-container .button.is-amber:hover { 
+    background-color: #d97706 !important; 
+    border-color: #d97706 !important; 
+    color: white !important;
+}
+.game-container.is-amber {
+    background-color: #fffbeb !important;
+    border: 2px solid #f59e0b !important;
+}
+.game-container.is-amber .title,
+.game-container.is-amber label,
+.game-container.is-amber p {
+    color: #92400e !important;
+}
+
+.game-container .progress.is-rose::-webkit-progress-value { 
+    background-color: #f43f5e !important; 
+}
+.game-container .progress.is-rose::-moz-progress-bar { 
+    background-color: #f43f5e !important; 
+}
+.game-container .button.is-rose { 
+    background-color: #f43f5e !important; 
+    border-color: #f43f5e !important; 
+    color: white !important;
+}
+.game-container .button.is-rose:hover { 
+    background-color: #e11d48 !important; 
+    border-color: #e11d48 !important; 
+    color: white !important;
+}
+.game-container.is-rose {
+    background-color: #fff1f2 !important;
+    border: 2px solid #f43f5e !important;
+}
+.game-container.is-rose .title,
+.game-container.is-rose label,
+.game-container.is-rose p {
+    color: #be123c !important;
+}
+
+.game-container .progress.is-violet::-webkit-progress-value { 
+    background-color: #8b5cf6 !important; 
+}
+.game-container .progress.is-violet::-moz-progress-bar { 
+    background-color: #8b5cf6 !important; 
+}
+.game-container .button.is-violet { 
+    background-color: #8b5cf6 !important; 
+    border-color: #8b5cf6 !important; 
+    color: white !important;
+}
+.game-container .button.is-violet:hover { 
+    background-color: #7c3aed !important; 
+    border-color: #7c3aed !important; 
+    color: white !important;
+}
+.game-container.is-violet {
+    background-color: #f5f3ff !important;
+    border: 2px solid #8b5cf6 !important;
+}
+.game-container.is-violet .title,
+.game-container.is-violet label,
+.game-container.is-violet p {
+    color: #6d28d9 !important;
+}
+
+.game-container .progress.is-teal::-webkit-progress-value { 
+    background-color: #14b8a6 !important; 
+}
+.game-container .progress.is-teal::-moz-progress-bar { 
+    background-color: #14b8a6 !important; 
+}
+.game-container .button.is-teal { 
+    background-color: #14b8a6 !important; 
+    border-color: #14b8a6 !important; 
+    color: white !important;
+}
+.game-container .button.is-teal:hover { 
+    background-color: #0d9488 !important; 
+    border-color: #0d9488 !important; 
+    color: white !important;
+}
+.game-container.is-teal {
+    background-color: #f0fdfa !important;
+    border: 2px solid #14b8a6 !important;
+}
+.game-container.is-teal .title,
+.game-container.is-teal label,
+.game-container.is-teal p {
+    color: #115e59 !important;
+}
+
+.game-container .progress.is-orange::-webkit-progress-value { 
+    background-color: #f97316 !important; 
+}
+.game-container .progress.is-orange::-moz-progress-bar { 
+    background-color: #f97316 !important; 
+}
+.game-container .button.is-orange { 
+    background-color: #f97316 !important; 
+    border-color: #f97316 !important; 
+    color: white !important;
+}
+.game-container .button.is-orange:hover { 
+    background-color: #ea580c !important; 
+    border-color: #ea580c !important; 
+    color: white !important;
+}
+.game-container.is-orange {
+    background-color: #fff7ed !important;
+    border: 2px solid #f97316 !important;
+}
+.game-container.is-orange .title,
+.game-container.is-orange label,
+.game-container.is-orange p {
+    color: #c2410c !important;
+}
+
+.game-container .progress.is-fuchsia::-webkit-progress-value { 
+    background-color: #d946ef !important; 
+}
+.game-container .progress.is-fuchsia::-moz-progress-bar { 
+    background-color: #d946ef !important; 
+}
+.game-container .button.is-fuchsia { 
+    background-color: #d946ef !important; 
+    border-color: #d946ef !important; 
+    color: white !important;
+}
+.game-container .button.is-fuchsia:hover { 
+    background-color: #c026d3 !important; 
+    border-color: #c026d3 !important; 
+    color: white !important;
+}
+.game-container.is-fuchsia {
+    background-color: #fdf4ff !important;
+    border: 2px solid #d946ef !important;
+}
+.game-container.is-fuchsia .title,
+.game-container.is-fuchsia label,
+.game-container.is-fuchsia p {
+    color: #a21caf !important;
+}
+
+.game-container .progress.is-indigo::-webkit-progress-value { 
+    background-color: #6366f1 !important; 
+}
+.game-container .progress.is-indigo::-moz-progress-bar { 
+    background-color: #6366f1 !important; 
+}
+.game-container .button.is-indigo { 
+    background-color: #6366f1 !important; 
+    border-color: #6366f1 !important; 
+    color: white !important;
+}
+.game-container .button.is-indigo:hover { 
+    background-color: #4f46e5 !important; 
+    border-color: #4f46e5 !important; 
+    color: white !important;
+}
+.game-container.is-indigo {
+    background-color: #eef2ff !important;
+    border: 2px solid #6366f1 !important;
+}
+.game-container.is-indigo .title,
+.game-container.is-indigo label,
+.game-container.is-indigo p {
+    color: #4338ca !important;
+}
+
+.game-container .progress.is-cyan::-webkit-progress-value { 
+    background-color: #06b6d4 !important; 
+}
+.game-container .progress.is-cyan::-moz-progress-bar { 
+    background-color: #06b6d4 !important; 
+}
+.game-container .button.is-cyan { 
+    background-color: #06b6d4 !important; 
+    border-color: #06b6d4 !important; 
+    color: white !important;
+}
+.game-container .button.is-cyan:hover { 
+    background-color: #0891b2 !important; 
+    border-color: #0891b2 !important; 
+    color: white !important;
+}
+.game-container.is-cyan {
+    background-color: #ecfeff !important;
+    border: 2px solid #06b6d4 !important;
+}
+.game-container.is-cyan .title,
+.game-container.is-cyan label,
+.game-container.is-cyan p {
+    color: #155e75 !important;
+}
+
+/* Make buttons use the same font and add some additional styling */
+.button {
+    font-family: 'Playpen Sans', sans-serif;
+    font-weight: 600;
+    font-size: 1.1em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 0.75em 1.5em;
+    transition: all 0.3s ease;
+}
+
+/* Game title styling */
+.game-title {
+    font-size: 1.8em !important;
+    font-weight: 600;
+    margin-bottom: 1.5em;
+    color: inherit;
+}
+
+/* Mobile responsive title */
+@media screen and (max-width: 768px) {
+    .game-title {
+        font-size: 1.4em !important;
+        margin-bottom: 1.2em;
+    }
+}
+
+/* Progress bar and timer styling */
+.progress-container {
+    position: relative;
+    margin: 1em 0;
+}
+
+.progress {
+    height: 2.5em !important; /* Increase height of progress bar */
+}
+
+.timer-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.4em;
+    font-weight: 600;
+    color: #333;
+    text-shadow: 
+        -2px -2px 0 #fff,
+        2px -2px 0 #fff,
+        -2px 2px 0 #fff,
+        2px 2px 0 #fff,
+        0 0 6px rgba(255, 255, 255, 0.8);
+    pointer-events: none;
+    padding: 0.2em 0;
+}
+
+/* Theme-specific timer colors */
+.game-container.is-emerald .timer-overlay { color: #065f46; }
+.game-container.is-sky .timer-overlay { color: #075985; }
+.game-container.is-amber .timer-overlay { color: #92400e; }
+.game-container.is-rose .timer-overlay { color: #be123c; }
+.game-container.is-violet .timer-overlay { color: #6d28d9; }
+.game-container.is-teal .timer-overlay { color: #115e59; }
+.game-container.is-orange .timer-overlay { color: #c2410c; }
+.game-container.is-fuchsia .timer-overlay { color: #a21caf; }
+.game-container.is-indigo .timer-overlay { color: #4338ca; }
+.game-container.is-cyan .timer-overlay { color: #155e75; }
+
+/* Results screen styling */
+.result-text {
+    font-size: 1.8em;
+    font-weight: 600;
+    margin: 0.5em 0;
+    color: inherit;
+}
+
+/* Mobile responsive results */
+@media screen and (max-width: 768px) {
+    .result-text {
+        font-size: 1.5em;
+    }
+} 

@@ -5,7 +5,7 @@ FROM caddy:2.9.1-alpine
 WORKDIR /var/www/html
 
 # Copy application files to /var/www/html inside the container
-COPY ./src /var/www/html
+COPY . /var/www/html
 
 # Copy the Caddyfile to /etc/caddy (Caddy's default config directory)
 COPY Caddyfile /etc/caddy/Caddyfile

@@ -1,63 +1,106 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Count & Add – Up to 10 with Pictures</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Count and Add Up to 10 - Topacy Math Games</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playpen+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Playpen+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="framework.css">
     <link rel="stylesheet" href="style.css">
   </head>
   <body>
-  <section class="section">
-    <div class="container">
-        <div class="game-container">
-            <h1 class="title has-text-centered game-title">Count & Add – Up to 10 with Pictures</h1>
+    <!-- Header -->
+    <div id="header-container"></div>
 
-            <div id="game-area">
-                <div class="columns is-vcentered">
-                    <div class="column">
-                        <div class="progress-container">
-                            <progress id="progress-bar" class="progress is-emerald" value="0" max="10"></progress>
-                            <div id="timer" class="timer-overlay">0s</div>
-                        </div>
-                    </div>
-                </div>
+    <section class="section">
+      <div class="container">
+          <div class="game-container">
+              <h1 class="title has-text-centered game-title">Count & Add – Up to 10 with Pictures</h1>
 
-                <div id="question-display" class="box has-text-centered" style="font-size: 2em; margin-top: 20px; margin-bottom: 20px;">
-                    <!-- Question will be displayed here -->
-                    <!-- e.g., 🍎 + 🍎🍎 = ? -->
-                </div>
+              <div id="game-area">
+                  <div class="columns is-vcentered">
+                      <div class="column">
+                          <div class="progress-container">
+                              <progress id="progress-bar" class="progress is-emerald" value="0" max="10"></progress>
+                              <div id="timer" class="timer-overlay">0s</div>
+                          </div>
+                      </div>
+                  </div>
 
-                <div id="answer-area" class="field has-text-centered">
-                    <div class="control">
-                        <input id="answer-input" class="input" type="number">
-                    </div>
-                    <div class="control" style="margin-top: 10px;">
-                        <button id="submit-answer-btn" class="button is-emerald">Submit</button>
-                    </div>
-                </div>
+                  <div id="question-display" class="box has-text-centered" style="font-size: 2em; margin-top: 20px; margin-bottom: 20px;">
+                      <!-- Question will be displayed here -->
+                      <!-- e.g., 🍎 + 🍎🍎 = ? -->
+                  </div>
 
-                <div id="feedback-area" class="has-text-centered" style="margin-top: 10px;">
-                    <!-- Feedback: Correct or Incorrect -->
-                </div>
-                
-                <div class="has-text-centered" style="margin-top: 15px;">
-                    <button id="next-question-btn" class="button is-emerald is-hidden">Next Question</button>
-                </div>
-            </div>
+                  <div id="answer-area" class="field has-text-centered">
+                      <div class="control">
+                          <input id="answer-input" class="input" type="number">
+                      </div>
+                      <div class="control" style="margin-top: 10px;">
+                          <button id="submit-answer-btn" class="button is-emerald">Submit</button>
+                      </div>
+                  </div>
 
-            <div id="results-area" class="box is-hidden has-text-centered" style="margin-top: 30px;">
-                <p class="result-text">Total Correct Answers: <span id="correct-answers">0</span>/10</p>
-                <p class="result-text">Time Taken: <span id="time-taken">0s</span></p>
-                <p class="result-text">Score: <span id="score-percentage">0</span>%</p>
-                <button id="retake-btn" class="button is-emerald" style="margin-top: 20px;">Retake Test</button>
-            </div>
-        </div>
-    </div>
-  </section>
-  <script src="script.js"></script>
+                  <div id="feedback-area" class="has-text-centered" style="margin-top: 10px;">
+                      <!-- Feedback: Correct or Incorrect -->
+                  </div>
+                  
+                  <div class="has-text-centered" style="margin-top: 15px;">
+                      <button id="next-question-btn" class="button is-emerald is-hidden">Next Question</button>
+                  </div>
+              </div>
+
+              <div id="results-area" class="box is-hidden has-text-centered" style="margin-top: 30px;">
+                  <p class="result-text">Total Correct Answers: <span id="correct-answers">0</span>/10</p>
+                  <p class="result-text">Time Taken: <span id="time-taken">0s</span></p>
+                  <p class="result-text">Score: <span id="score-percentage">0</span>%</p>
+                  <button id="retake-btn" class="button is-emerald" style="margin-top: 20px;">Retake Test</button>
+              </div>
+          </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <div id="footer-container"></div>
+
+    <script>
+        // Load header and footer
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load header
+            fetch('/header.html')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to load header');
+                    }
+                    return response.text();
+                })
+                .then(data => {
+                    document.getElementById('header-container').innerHTML = data;
+                })
+                .catch(error => {
+                    console.error('Error loading header:', error);
+                    document.getElementById('header-container').innerHTML = '<div class="error">Error loading header</div>';
+                });
+
+            // Load footer
+            fetch('/footer.html')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to load footer');
+                    }
+                    return response.text();
+                })
+                .then(data => {
+                    document.getElementById('footer-container').innerHTML = data;
+                })
+                .catch(error => {
+                    console.error('Error loading footer:', error);
+                    document.getElementById('footer-container').innerHTML = '<div class="error">Error loading footer</div>';
+                });
+        });
+    </script>
+    <script src="script.js"></script>
   </body>
 </html>

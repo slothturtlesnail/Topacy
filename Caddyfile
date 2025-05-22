@@ -1,7 +1,0 @@
-:3000 {
-        # Set this path to your site's directory.
-        root * /var/www/html
-
-        # Enable the static file server.
-        file_server
-}

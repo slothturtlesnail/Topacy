@@ -1,0 +1,31 @@
+# Development containers
+.devcontainer
+.devcontainer/*
+
+# Docker files
+# Dockerfile
+# docker-compose*.yml
+# Caddyfile
+
+# Version control
+.git
+.gitignore
+.github
+
+# Node.js (if applicable)
+node_modules
+npm-debug.log
+
+# Environment files
+.env
+.env.*
+
+# Editor directories and files
+.vscode
+.idea
+*.swp
+*.swo
+
+# OS generated files
+.DS_Store
+Thumbs.db

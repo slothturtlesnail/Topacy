@@ -581,4 +581,15 @@ body {
     .result-text {
         font-size: 1.5em;
     }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); background-color: transparent; }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); background-color: rgba(255,0,0,0.2); }
+  20%, 40%, 60%, 80% { transform: translateX(10px); background-color: rgba(255,0,0,0.2); }
+}
+
+.shake {
+  animation: shake 0.5s ease-in-out !important; /* Added !important and made more obvious */
+  border: 2px solid red !important; /* For visual debugging */
 } 

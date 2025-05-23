@@ -152,9 +152,9 @@ const sounds = {
 
 function initializeSounds() {
     try {
-        sounds.correct = new Audio('sounds/correct.mp3');
-        sounds.incorrect = new Audio('sounds/incorrect.mp3');
-        sounds.click = new Audio('sounds/click.mp3');
+        sounds.correct = new Audio('/sounds/correct.wav');
+        sounds.incorrect = new Audio('/sounds/incorrect.wav');
+        sounds.click = new Audio('/sounds/click.wav');
     } catch (e) {
         console.error("Error initializing audio files:", e);
     }
@@ -255,9 +255,24 @@ function handleAnswerSubmission(elements) {
         }, 1000);
     } else {
         elements.feedbackArea.innerHTML = `<p class="has-text-danger">Incorrect. The correct answer is ${correctAnswer}.</p>`;
-        elements.submitAnswerBtn.disabled = true;
-        elements.answerInput.disabled = true;
         elements.nextQuestionBtn.classList.remove('is-hidden');
+        playSound('incorrect'); // Play incorrect sound
+
+        // Shake effect
+        const answerInput = elements.answerInput;
+        
+        answerInput.classList.remove('shake');
+        void answerInput.offsetWidth; // Force reflow
+        answerInput.classList.add('shake');
+
+        // Listen for animation to end, then remove class and disable
+        const handleAnimationEnd = () => {
+            answerInput.classList.remove('shake');
+            elements.submitAnswerBtn.disabled = true;
+            answerInput.disabled = true;
+            // No need to manually removeEventListener if { once: true } is used
+        };
+        answerInput.addEventListener('animationend', handleAnimationEnd, { once: true });
     }
     
     elements.progressBar.value = currentQuestionIndex + 1;

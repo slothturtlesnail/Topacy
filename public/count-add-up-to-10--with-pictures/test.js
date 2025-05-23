@@ -65,7 +65,18 @@ describe('Game Logic', () => {
 
         // Create mock DOM elements
         mockElements = {
-            answerInput: { value: '' },
+            answerInput: { 
+                value: '', 
+                classList: { 
+                    add: jest.fn(), 
+                    remove: jest.fn(), 
+                    contains: jest.fn()
+                },
+                addEventListener: jest.fn(),
+                removeEventListener: jest.fn(),
+                focus: jest.fn(),
+                disabled: false // Initialize disabled state
+            }, 
             feedbackArea: { innerHTML: '' },
             submitAnswerBtn: { disabled: false },
             nextQuestionBtn: { classList: { add: jest.fn(), remove: jest.fn() } },
@@ -74,7 +85,9 @@ describe('Game Logic', () => {
             resultsArea: { classList: { add: jest.fn(), remove: jest.fn() } },
             correctAnswersDisplay: { textContent: '' },
             timeTakenDisplay: { textContent: '' },
-            scorePercentageDisplay: { textContent: '' }
+            scorePercentageDisplay: { textContent: '' },
+            questionDisplay: { innerHTML: '' }, // Added for updateQuestionContent
+            timerDisplay: { textContent: '' }    // Added for startTimer
         };
     });
 
@@ -91,10 +104,57 @@ describe('Game Logic', () => {
         mockElements.answerInput.value = '6';
         handleAnswerSubmission(mockElements);
         expect(mockElements.feedbackArea.innerHTML).toContain('Incorrect');
-        expect(mockElements.submitAnswerBtn.disabled).toBe(true);
-        expect(mockElements.answerInput.disabled).toBe(true);
         expect(mockElements.nextQuestionBtn.classList.remove).toHaveBeenCalledWith('is-hidden');
         expect(getScore()).toBe(0);
+    });
+
+    test('handleAnswerSubmission with incorrect answer adds shake class and disables input on animationend', (done) => {
+        // Mock the animationend event and classList behavior
+        let isShaking = false;
+        const eventListeners = {};
+
+        mockElements.answerInput.addEventListener = jest.fn((event, callback) => {
+            eventListeners[event] = callback;
+        });
+        mockElements.answerInput.removeEventListener = jest.fn((event) => {
+            delete eventListeners[event];
+        });
+        mockElements.answerInput.classList = {
+            add: jest.fn(cls => { if (cls === 'shake') isShaking = true; }),
+            remove: jest.fn(cls => { if (cls === 'shake') isShaking = false; }),
+            contains: jest.fn(cls => cls === 'shake' && isShaking)
+        };
+        mockElements.answerInput.offsetWidth = 0; // Mock offsetWidth for reflow
+
+        // Set up for an incorrect answer
+        setCurrentQuestionIndex(0); // First question
+        mockElements.answerInput.value = '99'; // Incorrect answer
+
+        handleAnswerSubmission(mockElements);
+
+        // Initial assertions (before animationend)
+        expect(mockElements.feedbackArea.innerHTML).toContain('Incorrect');
+        expect(mockElements.answerInput.classList.add).toHaveBeenCalledWith('shake');
+        expect(isShaking).toBe(true); // Check internal state
+        // At this point, submit button and input should NOT be disabled yet
+        expect(mockElements.submitAnswerBtn.disabled).toBe(false); 
+        expect(mockElements.answerInput.disabled).toBe(false);
+
+        // Simulate the animation ending
+        if (eventListeners['animationend']) {
+            eventListeners['animationend'](); 
+        } else {
+            // Fail the test if the event listener wasn't attached as expected
+            done(new Error('animationend listener not attached or removed prematurely'));
+            return;
+        }
+
+        // Assertions after animationend
+        expect(isShaking).toBe(false); // Check internal state
+        expect(mockElements.answerInput.classList.remove).toHaveBeenCalledWith('shake');
+        expect(mockElements.submitAnswerBtn.disabled).toBe(true);
+        expect(mockElements.answerInput.disabled).toBe(true);
+        done(); // Signal test completion for async test
     });
 
     test('endGame calculates and displays correct score', () => {
